@@ -10,6 +10,32 @@ sbz's FreeBSD commands cheat-sheet
 sudo mount_msdosfs [-o large] /dev/ad0s1 /mnt
 ```
 
+- Mount ISO 9660 using memory disk
+
+```
+sudo mount -t cd9660 /dev/`mdconfig -f <image.iso>` /mnt
+```
+
+- Mount Linux procfs
+
+```
+sudo mkdir -p /proc
+sudo mount -t procfs proc /proc
+```
+
+- Mount Linux linprocfs
+
+```
+sudo mkdir -p /compat/linux/proc
+sudo mount -t linprocfs linproc /compat/linux/proc
+```
+
+- Mount file descriptor fs
+
+```
+sudo mount -t fdescfs fdesc /dev/fd
+```
+
 ## Update commands
 
 - Perform FreeBSD binary upgrade 
@@ -42,6 +68,7 @@ sudo pkg audit -F
 ```
 
 - Is <pkg> installed?
+
 ```
 pkg info|grep <pkg>
 ```
@@ -72,10 +99,18 @@ sudo pkg clean -y
 pkg stats
 ```
 
-- Found what package install the file:
+- Found the package installing the file:
 
 ```
 pkg which /usr/local/bin/vim
+```
+
+- Found the file if package is not installed:
+
+```
+sudo pkg install pkg-provides
+sudo pkg provides -uf
+pkg provides /path/to/binary
 ```
 
 ## Network commands
@@ -109,6 +144,13 @@ sudo kldxref [v] /boot/kernel /boot/modules
 sudo kldxref -R /boot
 ```
 
+- Dump running kernel config
+
+```
+sysctl -n kern.conftxt
+config -x /boot/kernel/kernel
+```
+
 ## Ports commands
 
 - Update and extract snapshot
@@ -123,7 +165,7 @@ sudo portsnap fetch extract
 ```
 cd /usr/ports/*/*/<portname>
 make -C /usr/ports search name=<portname>
-make -C /usr/ports search name=<portname> display=name,category
+make -C /usr/ports search name=<portname> display=name,path
 psearch <portname>
 ```
 
@@ -156,6 +198,20 @@ make -C /usr/ports/editor/vim config
 
 ## Poudriere commands
 
+- Create jail
+
+```
+sudo poudriere jail -c -j <jail> -v 12.1-RELEASE -a <arch> -M ftp -p <ptree>
+sudo poudriere jail -c -j 12amd64 -v 12.1-RELEASE -a amd64 -M ftp -p portsdir
+```
+
+- Delete jail
+
+```
+sudo poudriere jail -d -j <jail> -C all
+sudo poudriere jail -d -j 12amd64 -C all
+```
+
 - List jail(s)
 
 ```
@@ -180,8 +236,8 @@ sudo poudriere ports -l [-n] [-q]
 - Test port build
 
 ```
-sudo poudriere testport -o editor/vim -p portsdir -n
-sudo poudriere testport -o editor/vim -p portsdir -v
+sudo poudriere testport -o <origin>/<port> -p portsdir -n # dry run
+sudo poudriere testport -o editor/vim -p portsdir -v # verbose
 ```
 
 ## Developer commands
@@ -210,8 +266,48 @@ svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
 git clone --depth 1 https://github.com/freebsd/freebsd-ports/git ports
 ```
 
+- Enter into utils (e.g ls) sources code folder
+
+```
+cd `where -sq ls`
+```
+
 ## Wireless command
+
+- Restart wireless network
 
 ```
 sudo service wpa_supplicant restart wlan0
+```
+
+- Debug wireless stack
+
+```
+sudo sysctl debug.iwi=1
+sudo sysclt hw.wi.debug=1
+sudo sysctl net.wlan.debug=1
+```
+
+## Build command
+
+- World and Kernel build
+
+```
+cd /usr/src
+sudo nice -n -20 make -j`sysctl -n hw.ncpu` -DNO_CLEAN -DKERNFAST buildworld buildkernel | tee -a build.log
+```
+
+- Install
+
+```
+cd /usr/src
+sudo make installworld installkernel
+sudo make installkernel.debug
+```
+
+- Update etc configs
+
+```
+sudo etcupdate
+sudo mergemaster -ui
 ```
