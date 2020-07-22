@@ -122,6 +122,16 @@ sudo netstat -p tcp -an
 sudo sockstat -P tcp -a
 ```
 
+Also refer to dtrace tcp script into /usr/share/dtrace
+
+```
+cd /usr/share/dtrace
+sudo tcpconn
+sudo tcpdebug
+sudo tcpstate
+sudo tcptrack
+```
+
 ## Kernel modules commands
 
 - List loaded kernel modules
@@ -196,6 +206,20 @@ make -C /usr/ports/editor/vim showconfig
 make -C /usr/ports/editor/vim config
 ```
 
+## Src commands
+
+- List /usr/src Makefile targets
+
+```
+grep '^# [a-z].*- [A-Z].*' /usr/src/Makefile | sed 's,^# ,,' | sort
+```
+
+- Enter into userland binary utility (e.g ls) sources code folder
+
+```
+cd `where -sq ls`
+```
+
 ## Poudriere commands
 
 - Create jail
@@ -266,13 +290,8 @@ svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
 git clone --depth 1 https://github.com/freebsd/freebsd-ports/git ports
 ```
 
-- Enter into utils (e.g ls) sources code folder
 
-```
-cd `where -sq ls`
-```
-
-## Wireless command
+## Wireless commands
 
 - Restart wireless network
 
@@ -280,15 +299,21 @@ cd `where -sq ls`
 sudo service wpa_supplicant restart wlan0
 ```
 
+- List Wireless devices
+
+```
+sysctl net.wlan.devices
+```
+
 - Debug wireless stack
 
 ```
 sudo sysctl debug.iwi=1
-sudo sysclt hw.wi.debug=1
+sudo sysctl hw.wi.debug=1
 sudo sysctl net.wlan.debug=1
 ```
 
-## Build command
+## Build commands
 
 - World and Kernel build
 
@@ -297,7 +322,7 @@ cd /usr/src
 sudo nice -n -20 make -j`sysctl -n hw.ncpu` -DNO_CLEAN -DKERNFAST buildworld buildkernel | tee -a build.log
 ```
 
-- Install
+- Install Kernel (debug)
 
 ```
 cd /usr/src
@@ -310,4 +335,67 @@ sudo make installkernel.debug
 ```
 sudo etcupdate
 sudo mergemaster -ui
+```
+
+## Hardware commands
+
+- PCI devices
+
+```
+sudo pciconf -vl
+
+sudo pkg install pciutils
+sudo lspci [-v]
+```
+
+- USB devices
+
+```
+sudo usbconfig list
+sudo usbconfig dump_all_desc
+
+sudo pkg install usbutils
+sudo lsusb [-v]
+```
+
+- Sounds devices
+
+```
+sudo cat /dev/sndstat
+sudo sysctl dev.pcm
+```
+
+- CPU Info
+
+```
+sudo dmesg
+sudo dmesg | sed -n '/^CPU:/,/^real/p'
+sudo sysctl hw.model hw.ncpu
+```
+
+## Memory commands
+
+- Virtual memory
+
+```
+vmstat -c 1
+sysctl hw.realmem hw.physmem
+top -bt 0
+```
+
+- Process memory mappings
+
+```
+procstat vm <pid>
+cat /proc/<pid>/map
+cat /compat/linux/proc/<pid>/maps
+```
+
+## IO commands
+
+- Device read/write IO stats
+
+```
+iostat [-x]
+iostat -x -w 1 # watch mode
 ```
