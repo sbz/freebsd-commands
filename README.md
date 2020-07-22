@@ -99,13 +99,13 @@ sudo pkg clean -y
 pkg stats
 ```
 
-- Found the package installing the file:
+- Find the package installing the file:
 
 ```
 pkg which /usr/local/bin/vim
 ```
 
-- Found the file if package is not installed:
+- Find the file if package is not installed:
 
 ```
 sudo pkg install pkg-provides
@@ -120,6 +120,16 @@ pkg provides /path/to/binary
 ```
 sudo netstat -p tcp -an
 sudo sockstat -P tcp -a
+```
+
+Also refer to dtrace tcp script into /usr/share/dtrace
+
+```
+cd /usr/share/dtrace
+sudo tcpconn
+sudo tcpdebug
+sudo tcpstate
+sudo tcptrack
 ```
 
 ## Kernel modules commands
@@ -166,6 +176,8 @@ sudo portsnap fetch extract
 cd /usr/ports/*/*/<portname>
 make -C /usr/ports search name=<portname>
 make -C /usr/ports search name=<portname> display=name,path
+
+sudo pkg install psearch
 psearch <portname>
 ```
 
@@ -194,6 +206,26 @@ make -C /usr/ports/editor/vim makesum
 ```
 make -C /usr/ports/editor/vim showconfig
 make -C /usr/ports/editor/vim config
+```
+
+- List ports Makefile targets
+
+```
+grep -E '^[^${\.#]+:$' /usr/ports/Mk/bsd.port.mk |cut -d ':' -f1 | sort -u
+```
+
+## Src commands
+
+- List /usr/src Makefile targets
+
+```
+grep '^# [a-z].*- [A-Z].*' /usr/src/Makefile | sed 's,^# ,,' | sort -u
+```
+
+- Enter into userland binary utility (e.g ls) sources code folder
+
+```
+cd `where -sq ls`
 ```
 
 ## Poudriere commands
@@ -251,7 +283,7 @@ svn checkout [-q] svn+ssh://svn.freebsd.org/base/head ~/svn/src
 git clone --depth 1 https://github.com/freebsd/freebsd.git src
 ```
 
-For specific 12.x release:
+For specific branch, e.g. 12.x release:
 
 ```
 svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.1 ~/svn/src-12
@@ -263,16 +295,11 @@ svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.1 ~/svn/src-12
 svn checkout [-q] https://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
-git clone --depth 1 https://github.com/freebsd/freebsd-ports/git ports
+git clone --depth 1 https://github.com/freebsd/freebsd-ports.git ports
 ```
 
-- Enter into utils (e.g ls) sources code folder
 
-```
-cd `where -sq ls`
-```
-
-## Wireless command
+## Wireless commands
 
 - Restart wireless network
 
@@ -280,15 +307,27 @@ cd `where -sq ls`
 sudo service wpa_supplicant restart wlan0
 ```
 
+- List Wireless devices
+
+```
+sysctl net.wlan.devices
+```
+
+- List Wireless SSID Access point (w/ wlan0 device)
+
+```
+sudo ifconfig [-v] wlan0 list scan
+```
+
 - Debug wireless stack
 
 ```
 sudo sysctl debug.iwi=1
-sudo sysclt hw.wi.debug=1
+sudo sysctl hw.wi.debug=1
 sudo sysctl net.wlan.debug=1
 ```
 
-## Build command
+## Build commands
 
 - World and Kernel build
 
@@ -297,7 +336,7 @@ cd /usr/src
 sudo nice -n -20 make -j`sysctl -n hw.ncpu` -DNO_CLEAN -DKERNFAST buildworld buildkernel | tee -a build.log
 ```
 
-- Install
+- Install Kernel (debug)
 
 ```
 cd /usr/src
@@ -310,4 +349,67 @@ sudo make installkernel.debug
 ```
 sudo etcupdate
 sudo mergemaster -ui
+```
+
+## Hardware commands
+
+- PCI devices
+
+```
+sudo pciconf -vl
+
+sudo pkg install pciutils
+sudo lspci [-v]
+```
+
+- USB devices
+
+```
+sudo usbconfig list
+sudo usbconfig dump_all_desc
+
+sudo pkg install usbutils
+sudo lsusb [-v]
+```
+
+- Sounds devices
+
+```
+sudo cat /dev/sndstat
+sudo sysctl dev.pcm
+```
+
+- CPU Info
+
+```
+sudo dmesg
+sudo dmesg | sed -n '/^CPU:/,/^real/p'
+sudo sysctl hw.model hw.ncpu
+```
+
+## Memory commands
+
+- Virtual memory
+
+```
+vmstat -c 1
+sysctl hw.realmem hw.physmem
+top -bt 0
+```
+
+- Process memory mappings
+
+```
+procstat vm <pid>
+cat /proc/<pid>/map
+cat /compat/linux/proc/<pid>/maps
+```
+
+## IO commands
+
+- Device read/write IO stats
+
+```
+iostat [-x]
+iostat -x -w 1 # watch mode
 ```
