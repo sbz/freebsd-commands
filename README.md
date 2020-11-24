@@ -208,10 +208,11 @@ make -C /usr/ports/editor/vim config
 
 ## Src commands
 
-- List /usr/src Makefile targets
+- Extract /usr/src Makefile targets with descriptions (list all available targets)
 
 ```
 grep '^# [a-z].*- [A-Z].*' /usr/src/Makefile | sed 's,^# ,,' | sort
+make -V .ALLTARGETS
 ```
 
 - Enter into userland binary utility (e.g ls) sources code folder
