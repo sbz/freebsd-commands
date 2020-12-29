@@ -280,13 +280,18 @@ sudo poudriere testport -o editor/vim -p portsdir -v # verbose
 svn checkout [-q] https://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn+ssh://svn.freebsd.org/base/head ~/svn/src
+
 git clone --depth 1 https://github.com/freebsd/freebsd.git src
+git clone https://git.freebsd.org/src.git src
 ```
 
 For specific branch, e.g. 12.x release:
 
 ```
 svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.1 ~/svn/src-12
+
+git checkout -b releng-12.1 freebsd/releng/12.1
+git switch -c releng-12.1 freebsd/releng/12.1
 ```
 
 - Get ports
