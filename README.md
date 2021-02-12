@@ -99,13 +99,13 @@ sudo pkg clean -y
 pkg stats
 ```
 
-- Found the package installing the file:
+- Find the package installing the file:
 
 ```
 pkg which /usr/local/bin/vim
 ```
 
-- Found the file if package is not installed:
+- Find the file if package is not installed:
 
 ```
 sudo pkg install pkg-provides
@@ -176,6 +176,8 @@ sudo portsnap fetch extract
 cd /usr/ports/*/*/<portname>
 make -C /usr/ports search name=<portname>
 make -C /usr/ports search name=<portname> display=name,path
+
+sudo pkg install psearch
 psearch <portname>
 ```
 
@@ -206,13 +208,21 @@ make -C /usr/ports/editor/vim showconfig
 make -C /usr/ports/editor/vim config
 ```
 
+- List ports Makefile targets
+
+```
+grep -E '^[^${\.#]+:$' /usr/ports/Mk/bsd.port.mk |cut -d ':' -f1 | sort -u
+make -C /usr/ports -V .ALLTARGETS
+```
+
+
 ## Src commands
 
 - Extract /usr/src Makefile targets with descriptions (list all available targets)
 
 ```
 grep '^# [a-z].*- [A-Z].*' /usr/src/Makefile | sed 's,^# ,,' | sort
-make -V .ALLTARGETS
+make -C /usr/src -V .ALLTARGETS
 ```
 
 - Enter into userland binary utility (e.g ls) sources code folder
@@ -273,13 +283,18 @@ sudo poudriere testport -o editor/vim -p portsdir -v # verbose
 svn checkout [-q] https://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn+ssh://svn.freebsd.org/base/head ~/svn/src
+
 git clone --depth 1 https://github.com/freebsd/freebsd.git src
+git clone https://git.freebsd.org/src.git src
 ```
 
-For specific 12.x release:
+For specific branch, e.g. 12.x release:
 
 ```
 svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.1 ~/svn/src-12
+
+git checkout -b releng-12.1 freebsd/releng/12.1
+git switch -c releng-12.1 freebsd/releng/12.1
 ```
 
 - Get ports
@@ -288,9 +303,8 @@ svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.1 ~/svn/src-12
 svn checkout [-q] https://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
-git clone --depth 1 https://github.com/freebsd/freebsd-ports/git ports
+git clone --depth 1 https://github.com/freebsd/freebsd-ports.git ports
 ```
-
 
 ## Wireless commands
 
@@ -298,6 +312,18 @@ git clone --depth 1 https://github.com/freebsd/freebsd-ports/git ports
 
 ```
 sudo service wpa_supplicant restart wlan0
+```
+
+- List Wireless devices
+
+```
+sysctl net.wlan.devices
+```
+
+- List Wireless SSID Access point (w/ wlan0 device)
+
+```
+sudo ifconfig [-v] wlan0 list scan
 ```
 
 - List Wireless devices
