@@ -212,14 +212,17 @@ make -C /usr/ports/editor/vim config
 
 ```
 grep -E '^[^${\.#]+:$' /usr/ports/Mk/bsd.port.mk |cut -d ':' -f1 | sort -u
+make -C /usr/ports -V .ALLTARGETS
 ```
+
 
 ## Src commands
 
-- List /usr/src Makefile targets
+- Extract /usr/src Makefile targets with descriptions (list all available targets)
 
 ```
-grep '^# [a-z].*- [A-Z].*' /usr/src/Makefile | sed 's,^# ,,' | sort -u
+grep '^# [a-z].*- [A-Z].*' /usr/src/Makefile | sed 's,^# ,,' | sort
+make -C /usr/src -V .ALLTARGETS
 ```
 
 - Enter into userland binary utility (e.g ls) sources code folder
@@ -303,7 +306,6 @@ svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
 git clone --depth 1 https://github.com/freebsd/freebsd-ports.git ports
 ```
 
-
 ## Wireless commands
 
 - Restart wireless network
@@ -322,6 +324,12 @@ sysctl net.wlan.devices
 
 ```
 sudo ifconfig [-v] wlan0 list scan
+```
+
+- List Wireless devices
+
+```
+sysctl net.wlan.devices
 ```
 
 - Debug wireless stack
