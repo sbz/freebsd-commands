@@ -110,7 +110,7 @@ pkg which /usr/local/bin/vim
 ```
 sudo pkg install pkg-provides
 sudo pkg provides -uf
-pkg provides /path/to/binary
+pkg provides /path/to/file
 ```
 
 ## Network commands
@@ -206,6 +206,7 @@ make -C /usr/ports/editor/vim makesum
 ```
 make -C /usr/ports/editor/vim showconfig
 make -C /usr/ports/editor/vim config
+make -C /usr/ports/editor/vim rmconfig
 ```
 
 - List ports Makefile targets
@@ -252,8 +253,8 @@ cd `where -sq ls`
 - Create jail
 
 ```
-sudo poudriere jail -c -j <jail> -v 12.1-RELEASE -a <arch> -M ftp -p <ptree>
-sudo poudriere jail -c -j 12amd64 -v 12.1-RELEASE -a amd64 -M ftp -p portsdir
+sudo poudriere jail -c -j <jail> -v 12.2-RELEASE -a <arch> -M ftp -p <ptree>
+sudo poudriere jail -c -j 12amd64 -v 12.2-RELEASE -a amd64 -M ftp -p portsdir
 ```
 
 - Delete jail
@@ -301,16 +302,16 @@ svn checkout [-q] svn://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn+ssh://svn.freebsd.org/base/head ~/svn/src
 
 git clone --depth 1 https://github.com/freebsd/freebsd.git src
-git clone https://git.freebsd.org/src.git src
+git clone --depth 1 https://git.freebsd.org/src.git src
 ```
 
 For specific branch, e.g. 12.x release:
 
 ```
-svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.1 ~/svn/src-12
+svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.2 ~/svn/src-12
 
-git checkout -b releng-12.1 freebsd/releng/12.1
-git switch -c releng-12.1 freebsd/releng/12.1
+git checkout -b releng-12.2 freebsd/releng/12.2
+git switch -c releng-12.2 freebsd/releng/12.2
 ```
 
 - Get ports
@@ -319,6 +320,7 @@ git switch -c releng-12.1 freebsd/releng/12.1
 svn checkout [-q] https://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
+
 git clone --depth 1 https://github.com/freebsd/freebsd-ports.git ports
 ```
 
@@ -401,19 +403,13 @@ sudo pkg install usbutils
 sudo lsusb [-v]
 ```
 
-- Sounds devices
-
-```
-sudo cat /dev/sndstat
-sudo sysctl dev.pcm
-```
-
 - CPU Info
 
 ```
 sudo dmesg
 sudo dmesg | sed -n '/^CPU:/,/^real/p'
 sudo sysctl hw.model hw.ncpu
+sudo sysctl kern.smp.cpus
 ```
 
 ## Memory commands
@@ -432,6 +428,21 @@ top -bt 0
 procstat vm <pid>
 cat /proc/<pid>/map
 cat /compat/linux/proc/<pid>/maps
+```
+
+## Sounds commands
+
+- Sounds devices
+
+```
+sudo cat /dev/sndstat
+sudo sysctl dev.pcm
+```
+
+- Volume mixer
+
+```
+mixer vol 100
 ```
 
 ## IO commands
