@@ -215,6 +215,22 @@ grep -E '^[^${\.#]+:$' /usr/ports/Mk/bsd.port.mk |cut -d ':' -f1 | sort -u
 make -C /usr/ports -V .ALLTARGETS
 ```
 
+- List dependencies to rebuild
+
+```
+make all-depends-list
+make build-depends-list
+make run-depends-list
+```
+
+- Rebuild ports w/o building their dependencies
+
+```
+make missing-packages # list missing packages
+make install-missing-packages
+make install clean
+```
+
 
 ## Src commands
 
