@@ -439,6 +439,13 @@ sudo cat /dev/sndstat
 sudo sysctl dev.pcm
 ```
 
+- Disable beep
+
+```
+sudo sysctl hw.syscons.bell=0
+sudo sysctl kern.vt.enable_bell=0
+```
+
 - Volume mixer
 
 ```
