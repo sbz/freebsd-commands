@@ -469,3 +469,19 @@ mixer vol 100
 iostat [-x]
 iostat -x -w 1 # watch mode
 ```
+
+## ZFS Commands
+
+- ZFS Pools import 
+
+```
+zpool import -R /mnt zroot
+zpool import -R /mnt -e readonly=on zroot # readonly
+```
+
+- ZFS Datasets list and mount
+
+```
+zfs list
+mount -t vfs zroot/usr/home /tmp/home
+```
