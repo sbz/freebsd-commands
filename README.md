@@ -207,6 +207,8 @@ make -C /usr/ports/editor/vim makesum
 make -C /usr/ports/editor/vim showconfig
 make -C /usr/ports/editor/vim config
 make -C /usr/ports/editor/vim rmconfig
+
+make check-license check-categories check-deprecated check-vulnerable security-check check-sanity check-plist check-orphans check-config
 ```
 
 - List ports Makefile targets
@@ -276,6 +278,13 @@ sudo poudriere jail -l [-n] [-q]
 ```
 sudo poudriere jail -u -j <jail>
 sudo poudriere jail -u -j <jail> -t 12.1
+```
+
+- Create ports
+
+```
+sudo poudriere ports -c -m null -M ${PWD}/svn/ports -p portsdir -v
+sudo poudriere ports -l
 ```
 
 - List ports tree
