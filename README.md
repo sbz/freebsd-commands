@@ -305,32 +305,39 @@ sudo poudriere testport -o editor/vim -p portsdir -v # verbose
 
 - Get sources
 
+_(via subversion: deprecated)_
 ```
 svn checkout [-q] https://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn://svn.freebsd.org/base/head ~/svn/src
 svn checkout [-q] svn+ssh://svn.freebsd.org/base/head ~/svn/src
+```
 
-git clone --depth 1 https://github.com/freebsd/freebsd.git src
-git clone --depth 1 https://git.freebsd.org/src.git src
+*(via git)*
+```
+git clone --depth 1 https://github.com/freebsd/freebsd.git /usr/src
+git clone --depth 1 https://git.freebsd.org/src.git /usr/src
 ```
 
 For specific branch, e.g. 12.x release:
 
 ```
-svn co [-q] svn+ssh://svn.freebsd.org/base/releng/12.2 ~/svn/src-12
-
 git checkout -b releng-12.2 freebsd/releng/12.2
 git switch -c releng-12.2 freebsd/releng/12.2
 ```
 
 - Get ports
 
+_(via subversion: depcreated)_
 ```
 svn checkout [-q] https://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn+ssh://svn.freebsd.org/ports/head ~/svn/ports
+```
 
-git clone --depth 1 https://github.com/freebsd/freebsd-ports.git ports
+*(via git)*
+```
+git clone --depth 1 https://github.com/freebsd/freebsd-ports.git /usr/ports
+git clone --depth 1 https://git.freebsd.org/ports.git /usr/ports
 ```
 
 ## Wireless commands
