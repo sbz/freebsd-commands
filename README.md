@@ -479,16 +479,41 @@ iostat -x -w 1 # watch mode
 
 ## ZFS Commands
 
+- ZFS Take snapshot (of zroot)
+
+```
+sudo zfs snapshot -r zroot@<name-of-snapshot>
+```
+
+- ZFS List snapshot
+
+```
+zfs list -t snapshot
+```
+
 - ZFS Pools import 
 
 ```
-zpool import -R /mnt zroot
-zpool import -R /mnt -e readonly=on zroot # readonly
+sudo zpool import -R /mnt zroot
+sudo zpool import -R /mnt -e readonly=on zroot # readonly
 ```
 
 - ZFS Datasets list and mount
 
 ```
 zfs list
-mount -t vfs zroot/usr/home /tmp/home
+sudo mount -t vfs zroot/usr/home /tmp/home
+```
+
+- ZFS Protect snapshot from deletion
+
+```
+sudo zfs hold keep -r zroot@<name-of-snapshot>
+zfs holds zroot@<name-of-snapshost>
+```
+
+- ZFS Destroy snapshot
+
+```
+sudo zfs destroy -r zroot@<name-of-snapshot>
 ```
