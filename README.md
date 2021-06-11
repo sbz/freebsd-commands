@@ -181,32 +181,38 @@ sudo pkg install psearch
 psearch <portname>
 ```
 
+- Display port compiler flags
+
+```
+make -C /usr/ports/editors/vim -V CFLAGS
+```
+
 - Display port variables
 
 ```
-make -C /usr/ports/editor/vim -V MAINTAINER -V PORTVERSION
-make -C /usr/ports/editor/vim -V WRKSRC -V WRKDIR
+make -C /usr/ports/editors/vim -V MAINTAINER -V PORTVERSION
+make -C /usr/ports/editors/vim -V WRKSRC -V WRKDIR
 ```
 
 - Fetch distfile(s)
 
 ```
-cd /usr/ports/editor/vim && make fetch extract
+cd /usr/ports/editors/vim && make fetch extract
 cd work
 ```
 
 - Regenerate distfile(s) info hash
 
 ```
-make -C /usr/ports/editor/vim makesum
+make -C /usr/ports/editors/vim makesum
 ```
 
 - Alter KNOB/Options config
 
 ```
-make -C /usr/ports/editor/vim showconfig
-make -C /usr/ports/editor/vim config
-make -C /usr/ports/editor/vim rmconfig
+make -C /usr/ports/editors/vim showconfig
+make -C /usr/ports/editors/vim config
+make -C /usr/ports/editors/vim rmconfig
 
 make check-license check-categories check-deprecated check-vulnerable security-check check-sanity check-plist check-orphans check-config
 ```
@@ -247,7 +253,7 @@ make -C /usr/src -V .ALLTARGETS
 - Enter into userland binary utility (e.g ls) sources code folder
 
 ```
-cd `where -sq ls`
+cd `whereis -sq ls`
 ```
 
 ## Poudriere commands
@@ -298,7 +304,7 @@ sudo poudriere ports -l [-n] [-q]
 
 ```
 sudo poudriere testport -o <origin>/<port> -p portsdir -n # dry run
-sudo poudriere testport -o editor/vim -p portsdir -v # verbose
+sudo poudriere testport -o editors/vim -p portsdir -v # verbose
 ```
 
 ## Developer commands
@@ -360,13 +366,7 @@ sysctl net.wlan.devices
 sudo ifconfig [-v] wlan0 list scan
 ```
 
-- List Wireless devices
-
-```
-sysctl net.wlan.devices
-```
-
-- Debug wireless stack
+- Debug wireless stack (e.g. case for iwn(4) driver)
 
 ```
 sudo sysctl debug.iwi=1
@@ -441,7 +441,7 @@ top -bt 0
 - Process memory mappings
 
 ```
-procstat vm <pid>
+procstat vm <pid> or procstat -v <pid>
 cat /proc/<pid>/map
 cat /compat/linux/proc/<pid>/maps
 ```
