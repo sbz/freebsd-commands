@@ -289,7 +289,7 @@ sudo poudriere jail -u -j <jail> -t 12.1
 - Create ports
 
 ```
-sudo poudriere ports -c -m null -M ${PWD}/svn/ports -p portsdir -v
+sudo poudriere ports -c -m null -M ${PWD}/git/ports -p portsdir -v
 sudo poudriere ports -l
 ```
 
@@ -430,12 +430,18 @@ sudo sysctl kern.smp.cpus
 
 ## Memory commands
 
-- Virtual memory
+- Virtual memory statistics
 
 ```
 vmstat -c 1
 sysctl hw.realmem hw.physmem
 top -bt 0
+```
+
+- Memory total, wired, active, cache
+
+```
+sysctl vm.stats|grep count
 ```
 
 - Process memory mappings
@@ -489,6 +495,7 @@ sudo zfs snapshot -r zroot@<name-of-snapshot>
 
 ```
 zfs list -t snapshot
+ls -1 /.zfs/snapshot/
 ```
 
 - ZFS Pools import 
@@ -510,6 +517,12 @@ sudo mount -t vfs zroot/usr/home /tmp/home
 ```
 sudo zfs hold keep -r zroot@<name-of-snapshot>
 zfs holds zroot@<name-of-snapshost>
+```
+
+- ZFS Restore snapshot
+
+```
+sudo zfs rollback zroot@<name-of-snapshot>
 ```
 
 - ZFS Destroy snapshot
