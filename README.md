@@ -333,7 +333,7 @@ git switch -c releng-12.2 freebsd/releng/12.2
 
 - Get ports
 
-_(via subversion: depcreated)_
+_(via subversion: deprecated)_
 ```
 svn checkout [-q] https://svn.freebsd.org/ports/head ~/svn/ports
 svn checkout [-q] svn://svn.freebsd.org/ports/head ~/svn/ports
@@ -372,6 +372,26 @@ sudo ifconfig [-v] wlan0 list scan
 sudo sysctl debug.iwi=1
 sudo sysctl hw.wi.debug=1
 sudo sysctl net.wlan.debug=1
+```
+
+## Bluetooth commands
+
+- Scan Bluetooth peripherals
+
+```
+sudo bluetooth-config scan
+```
+
+- Enable Bluetooth association
+
+```
+sudo service hcsecd start
+```
+
+- List Bluetooth connections
+
+```
+sudo btsockstat -n
 ```
 
 ## Build commands
