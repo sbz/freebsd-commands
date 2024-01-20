@@ -442,10 +442,10 @@ sudo lsusb [-v]
 - CPU Info
 
 ```
-sudo dmesg
-sudo dmesg | sed -n '/^CPU:/,/^real/p'
-sudo sysctl hw.model hw.ncpu
-sudo sysctl kern.smp.cpus
+dmesg
+dmesg | sed -n '/^CPU:/,/^real/p'
+sysctl hw.model hw.ncpu
+sysctl kern.smp.cpus
 ```
 
 ## Memory commands
