@@ -303,8 +303,8 @@ sudo poudriere ports -l [-n] [-q]
 - Test port build
 
 ```
-sudo poudriere testport -o <origin>/<port> -p portsdir -n # dry run
-sudo poudriere testport -o editors/vim -p portsdir -v # verbose
+sudo poudriere testport -j <jail> -o <origin>/<port> -p portsdir -n # dry run
+sudo poudriere testport -j <jail> -o editors/vim -p portsdir -v # verbose
 ```
 
 ## Developer commands
