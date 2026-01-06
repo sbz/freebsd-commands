@@ -261,15 +261,15 @@ cd `whereis -sq ls`
 - Create jail
 
 ```
-sudo poudriere jail -c -j <jail> -v 14.3-RELEASE -a <arch> -m ftp -p <ptree>
-sudo poudriere jail -c -j 14amd64 -v 14.3-RELEASE -a amd64 -m ftp -p portsdir
+sudo poudriere jail -c -j <jail> -v 15.0-RELEASE -a <arch> -m ftp -p <ptree>
+sudo poudriere jail -c -j 15amd64 -v 15.0-RELEASE -a amd64 -m ftp -p portsdir
 ```
 
 - Delete jail
 
 ```
 sudo poudriere jail -d -j <jail> -C all
-sudo poudriere jail -d -j 14amd64 -C all
+sudo poudriere jail -d -j 15amd64 -C all
 ```
 
 - List jail(s)
@@ -283,7 +283,7 @@ sudo poudriere jail -l [-n] [-q]
 
 ```
 sudo poudriere jail -u -j <jail>
-sudo poudriere jail -u -j <jail> -t 14.3
+sudo poudriere jail -u -j <jail> -t 15.0
 ```
 
 - Create ports
