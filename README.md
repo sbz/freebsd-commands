@@ -261,15 +261,15 @@ cd `whereis -sq ls`
 - Create jail
 
 ```
-sudo poudriere jail -c -j <jail> -v 13.3-RELEASE -a <arch> -M ftp -p <ptree>
-sudo poudriere jail -c -j 13amd64 -v 13.3-RELEASE -a amd64 -M ftp -p portsdir
+sudo poudriere jail -c -j <jail> -v 14.3-RELEASE -a <arch> -m ftp -p <ptree>
+sudo poudriere jail -c -j 14amd64 -v 14.3-RELEASE -a amd64 -m ftp -p portsdir
 ```
 
 - Delete jail
 
 ```
 sudo poudriere jail -d -j <jail> -C all
-sudo poudriere jail -d -j 13amd64 -C all
+sudo poudriere jail -d -j 14amd64 -C all
 ```
 
 - List jail(s)
@@ -283,7 +283,7 @@ sudo poudriere jail -l [-n] [-q]
 
 ```
 sudo poudriere jail -u -j <jail>
-sudo poudriere jail -u -j <jail> -t 13.3
+sudo poudriere jail -u -j <jail> -t 14.3
 ```
 
 - Create ports
@@ -324,11 +324,11 @@ git clone --depth 1 https://github.com/freebsd/freebsd.git /usr/src
 git clone --depth 1 https://git.freebsd.org/src.git /usr/src
 ```
 
-For specific branch, e.g. 13.x release:
+For specific branch, e.g. 14.x release:
 
 ```
-git checkout -b releng-13.3 freebsd/releng/13.3
-git switch -c releng-13.3 freebsd/releng/13.3
+git checkout -b releng-14.3 freebsd/releng/14.3
+git switch -c releng-14.3 freebsd/releng/14.3
 ```
 
 - Get ports
